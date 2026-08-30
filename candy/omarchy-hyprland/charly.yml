@@ -1,0 +1,91 @@
+omarchy-hyprland:
+    candy:
+        version: 2026.242.0000
+        description: |
+            The Hyprland companion tools and desktop portals Omarchy's session depends on, layered over the compositor itself.
+            omarchy-hyprland deliberately does NOT install Hyprland: pod-hyprland already
+            owns the compositor, Xwayland and the nested session that runs it, and
+            declaring them twice would put the same behaviour in two places. What this
+            candy adds is the surrounding set Omarchy's own configuration and keybindings
+            invoke — the colour picker, the night-light daemon, the GUI dialogs, the
+            screen-share picker — plus the xdg-desktop-portal backends without which
+            screen sharing and file dialogs silently fail inside a Hyprland session.
+            Verifiable on the built image: every tool is on PATH and the Hyprland portal
+            backend is installed.
+        require:
+            - '@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.242.0437'
+            # The compositor itself. Requiring it here is what lets this candy stay
+            # additive rather than restating hyprland/xorg-xwayland.
+            - '@github.com/opencharly/pod-hyprland:v2026.241.1545'
+        distro:
+            arch:
+                package:
+                    # Companion tools Omarchy's bindings call by name. hyprpicker backs
+                    # omarchy-capture-*, hyprsunset backs the night-light toggle, and
+                    # hyprland-guiutils supplies the dialogs the session shows.
+                    - hyprpicker
+                    - hyprsunset
+                    - hyprland-guiutils
+                    # The share picker Hyprland's screencopy portal invokes to ask which
+                    # window or output to share. Omarchy-published.
+                    - hyprland-preview-share-picker
+                    # Qt6 Wayland platform plugin. Quickshell and the Hyprland GUI
+                    # utilities are Qt applications and fall back to X11 (or fail) without
+                    # it.
+                    - qt6-wayland
+                    # Portals. The hyprland backend serves screencast/screenshot; the gtk
+                    # backend serves file chooser and settings. Both are needed: with only
+                    # one installed, half the portal interfaces have no provider and the
+                    # calling application hangs rather than errors.
+                    - xdg-desktop-portal-hyprland
+                    - xdg-desktop-portal-gtk
+                    # Resolves which terminal a desktop entry's Terminal=true should open.
+                    - xdg-terminal-exec
+        plan:
+            - check: the Hyprland companion tools Omarchy's bindings invoke are installed
+              id: omarchy-hyprland-tools
+              context:
+                - build
+              exit_status: 0
+              command: |
+                  set -eu
+                  for b in hyprpicker hyprsunset; do
+                    command -v "$b" >/dev/null || { echo "missing: $b" >&2; exit 1; }
+                  done
+
+            - check: the Hyprland portal backend that serves screencast and screenshot is installed
+              id: omarchy-hyprland-portal-hyprland
+              context:
+                - build
+              file:
+                file: /usr/lib/xdg-desktop-portal-hyprland
+                exists: true
+
+            - check: the GTK portal backend that serves file chooser and settings is installed
+              id: omarchy-hyprland-portal-gtk
+              context:
+                - build
+              # Both backends matter. With only one present the other's interfaces have no
+              # provider, and a calling application hangs on the D-Bus call rather than
+              # failing — which looks like an application bug, not a missing package.
+              file:
+                file: /usr/lib/xdg-desktop-portal-gtk
+                exists: true
+
+            - check: the Qt6 Wayland platform plugin the shell and GUI utilities need is installed
+              id: omarchy-hyprland-qt6-wayland
+              context:
+                - build
+              package:
+                package: qt6-wayland
+
+            - check: the compositor this candy layers over is present, but is NOT owned here
+              id: omarchy-hyprland-compositor-present
+              context:
+                - build
+              # Asserts the require: on pod-hyprland actually took effect. If this passes
+              # while this candy declares no hyprland package, the additive split is
+              # working as intended.
+              file:
+                file: /usr/bin/Hyprland
+                exists: true
