@@ -1,0 +1,12 @@
+#  opencharly/layer-omarchy-hyprland — Hyprland companion tools and portals for Omarchy.
+#
+#  This repo does NOT own the compositor. pod-hyprland owns Hyprland, Xwayland and the
+#  nested session; this layer is additive on top of it, supplying the companion tools
+#  Omarchy's bindings invoke and the xdg-desktop-portal backends its session needs.
+#
+#  SHAPE: one repo, one external pin, members under candy/<name>/.
+version: 2026.240.1943
+repo: github.com/opencharly/layer-omarchy-hyprland
+discover:
+    - path: candy
+      recursive: true
