@@ -5,7 +5,6 @@
 #  Omarchy's bindings invoke and the xdg-desktop-portal backends its session needs.
 #
 #  SHAPE: one repo, one external pin, members under candy/<name>/.
-version: 2026.240.1943
 repo: github.com/opencharly/layer-omarchy-hyprland
 discover:
     - path: candy

@@ -1,6 +1,5 @@
 omarchy-hyprland:
     candy:
-        version: 2026.243.1023
         description: |
             The Hyprland companion tools and desktop portals Omarchy's session depends on, layered over the compositor itself.
             omarchy-hyprland deliberately does NOT install Hyprland: pod-hyprland already
@@ -13,10 +12,10 @@ omarchy-hyprland:
             Verifiable on the built image: every tool is on PATH and the Hyprland portal
             backend is installed.
         require:
-            - '@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.242.0437'
+            - '@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.242.0701'
             # The compositor itself. Requiring it here is what lets this candy stay
             # additive rather than restating hyprland/xorg-xwayland.
-            - '@github.com/opencharly/pod-hyprland:v2026.243.1021'
+            - '@github.com/opencharly/pod-hyprland:v2026.243.1822'
         distro:
             arch:
                 package:
@@ -48,11 +47,10 @@ omarchy-hyprland:
                 - build
               exit_status: 0
               command: |
-                  set -eu
-                  for b in hyprpicker hyprsunset; do
-                    command -v "$b" >/dev/null || { echo "missing: $b" >&2; exit 1; }
-                  done
-
+                set -eu
+                for b in hyprpicker hyprsunset; do
+                  command -v "$b" >/dev/null || { echo "missing: $b" >&2; exit 1; }
+                done
             - check: the Hyprland portal backend that serves screencast and screenshot is installed
               id: omarchy-hyprland-portal-hyprland
               context:
@@ -60,7 +58,6 @@ omarchy-hyprland:
               file:
                 file: /usr/lib/xdg-desktop-portal-hyprland
                 exists: true
-
             - check: the GTK portal backend that serves file chooser and settings is installed
               id: omarchy-hyprland-portal-gtk
               context:
@@ -71,14 +68,12 @@ omarchy-hyprland:
               file:
                 file: /usr/lib/xdg-desktop-portal-gtk
                 exists: true
-
             - check: the Qt6 Wayland platform plugin the shell and GUI utilities need is installed
               id: omarchy-hyprland-qt6-wayland
               context:
                 - build
               package:
                 package: qt6-wayland
-
             - check: the compositor this candy layers over is present, but is NOT owned here
               id: omarchy-hyprland-compositor-present
               context:
