@@ -1,6 +1,5 @@
 omarchy-hyprland:
     candy:
-        version: 2026.243.1023
         description: |
             The Hyprland companion tools and desktop portals Omarchy's session depends on, layered over the compositor itself.
             omarchy-hyprland deliberately does NOT install Hyprland: pod-hyprland already
