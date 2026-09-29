@@ -46,8 +46,9 @@ omarchy-cstream:
 
 ## Related
 
-- Closest family skill: `/charly-distros:omarchy-base` — the nearest owning procedure; this
-  repo carries no `skill:` entity of its own.
+This repo carries no `skill:` entity of its own; `/charly-distros:omarchy-base` is the closest
+family owning procedure.
+
 - Compositor: `/charly-pod:hyprland` — the compositor this candy layers over.
 - Foundation: `/charly-distros:omarchy-base`.
 - Streaming desktop: `/charly-distros:omarchy-cstream`.
