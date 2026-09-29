@@ -24,8 +24,7 @@ which screen sharing and file dialogs silently fail inside a Hyprland session.
 
 ## How to use it
 
-Compose the layer by pinning the member candy's sub-path inside a desktop box
-body (the box name's `candy:` node is the box body, whose keys are `base:` and a `candy:` list). The `omarchy-cstream` image does exactly this:
+Compose the layer by pinning the member candy's sub-path in a desktop box's `candy:` list. The `omarchy-cstream` image does exactly this:
 
 ```yaml
 omarchy-cstream:
