@@ -30,6 +30,7 @@ Compose the layer by pinning the member candy's sub-path in a desktop box's
 ```yaml
 omarchy-cstream:
   candy:
+    # the named box's value is the box BODY; `base:` and the `candy:` list are its keys
     base: omarchy
     candy:
       - '@github.com/opencharly/layer-omarchy-hyprland/candy/omarchy-hyprland:v2026.243.1042'
