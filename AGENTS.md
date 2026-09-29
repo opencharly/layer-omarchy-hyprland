@@ -1,0 +1,59 @@
+# AGENTS.md — layer-omarchy-hyprland
+
+Standalone candy repo for the Omarchy Hyprland-companion layer — the companion
+tools and desktop portals Omarchy's session depends on, additive over the
+compositor `pod-hyprland` already owns. The repo is multi-candy-shaped: the root
+`charly.yml` carries only the repo shape (`discover:`), and the member candy
+lives in `candy/omarchy-hyprland/charly.yml`.
+
+This repo has **no `skill:` entity** in its candy manifest, so there is no
+dedicated owning skill projected into the marketplace corpus. The gap is recorded
+against `opencharly/opencharly#291` (the batch that authors missing `skill:`
+entities).
+
+Canonical files:
+
+- `charly.yml` — the repo shape (`repo:` + `discover:`).
+- `candy/omarchy-hyprland/charly.yml` — the candy entity: the `require:` on the
+  foundation layer and the compositor, the `distro:` package arm, and the
+  `plan:` `check:` assertions.
+- `.github/workflows/tag-on-merge.yml` — CalVer tag + `CHANGELOG/` on merge.
+- `README.md` — user overview only; never agent guidance.
+
+## Load these skills first (R0)
+
+- `/charly-distros:omarchy-base` — the family foundation skill: the package
+  sources, the pinned mirror snapshot, and the runtime this layer builds on.
+  Load before editing or troubleshooting.
+- `/charly-pod:hyprland` — the compositor this candy layers over and does not
+  own. Load before touching anything compositor-related.
+- `/charly-image:layer` — the candy authoring reference (`charly.yml` schema,
+  `plan:` step verbs incl. `check:`, per-distro `distro:` arms, package/repo
+  sections, and service declarations). Load before editing any entity field or
+  plan step.
+
+## Build / validate / test
+
+- The merge gate is the **org-wide** `charly/pr-validator` (required check
+  `validate / validate`, defined in `opencharly/.github`); this repo has **no
+  per-repo candy gate** and ships only `.github/workflows/tag-on-merge.yml`.
+- The candy's `plan:` `check:` steps are the functional evidence — they assert
+  the companion tools, both portal backends, the Qt6 Wayland plugin, and the
+  compositor's presence via the `require:`.
+
+## Modify this repo
+
+- There is no `skill:` entity to keep in sync; if one is added (per #291), it
+  must be edited together with the candy entity in the same change.
+- Do **not** install Hyprland here — `pod-hyprland` owns the compositor,
+  Xwayland and the nested session. This candy stays additive.
+- Keep **both** portal backends: with only one installed, the other's interfaces
+  have no provider and a calling application hangs rather than errors.
+- New behaviour claims belong in the `plan:` as an observable `check:` step.
+
+## Landing
+
+- The authoritative rulebook is the umbrella `AGENTS.md` in
+  `opencharly/opencharly` and `charly/AGENTS.md` in the charly repo — read it
+  before landing.
+- Release history lives in `CHANGELOG/`.
