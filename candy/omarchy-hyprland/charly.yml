@@ -15,7 +15,7 @@ omarchy-hyprland:
             - '@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.272.0437'
             # The compositor itself. Requiring it here is what lets this candy stay
             # additive rather than restating hyprland/xorg-xwayland.
-            - '@github.com/opencharly/pod-hyprland:v2026.272.0101'
+            - '@github.com/opencharly/pod-hyprland:v2026.274.0652'
         distro:
             arch:
                 package:
