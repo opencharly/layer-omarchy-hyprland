@@ -12,10 +12,10 @@ omarchy-hyprland:
             Verifiable on the built image: every tool is on PATH and the Hyprland portal
             backend is installed.
         require:
-            - '@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.242.0437'
+            - '@github.com/opencharly/layer-omarchy-base/candy/omarchy-base:v2026.272.0437'
             # The compositor itself. Requiring it here is what lets this candy stay
             # additive rather than restating hyprland/xorg-xwayland.
-            - '@github.com/opencharly/pod-hyprland:v2026.243.1021'
+            - '@github.com/opencharly/pod-hyprland:v2026.272.0101'
         distro:
             arch:
                 package:
